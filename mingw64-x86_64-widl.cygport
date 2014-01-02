@@ -1,0 +1,24 @@
+TOOLCHAIN_TARGET="x86_64-w64-mingw32"
+inherit toolchain
+
+NAME="mingw64-x86_64-widl"
+VERSION=3.0.0
+RELEASE=1
+CATEGORY="Devel"
+SUMMARY="Windows IDL compiler for Win64 toolchain"
+DESCRIPTION=
+HOMEPAGE="http://mingw-w64.sourceforge.net/"
+SRC_URI="mirror://sourceforge/mingw-w64/mingw-w64-v${VERSION}.tar.bz2"
+SRC_DIR="mingw-w64-v${VERSION}/mingw-w64-tools/widl"
+PATCH_URI="3.0.0-default-includedir.patch"
+
+src_compile() {
+	cd ${S}
+	cygautoreconf
+	cd ${B}
+	# no need for --with-sysroot from toolchain_compile()
+	cygconf
+	cygmake
+}
+
+DOCS="/usr/share/doc/common-licenses/LGPL-2.1"
